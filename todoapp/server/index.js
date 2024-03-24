@@ -39,7 +39,6 @@ app.post("/new", async (req, res) => {
 });
 
 app.delete("/delete/:id", async(req,res)=> {
-    const pool = openDb()
     const id = parseInt(req.params.id)
     pool.query('delete from task where id =$1',
     [id],

@@ -45,19 +45,16 @@ const saveTask = async (task) => {
 
 input.addEventListener('keypress', (event) => {
     if (event.key === "Enter") {
-        event.preventDefault();
-        const task = input.value.trim();
+        event.preventDefault()
+        const task = input.value.trim()
         if (task !== '') {
-            saveTask(task).then((json) => {
-                renderTask(task);
-                const li = document.createElement('li'); // Create a new li element
-                li.setAttribute('class', 'list-group-item');
-                li.innerHTML = task;
-                list.append(li);
-                input.value = '';
-            });
+         todos.addTask(task).then((task) => {
+         renderTask(task)
+        input.value =''
+        input.focus()
+            })
         }
-    }
+     }
 });
 
 

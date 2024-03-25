@@ -1,3 +1,5 @@
+require('dotenv').config()
+console.log(process.env)
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
@@ -7,15 +9,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 
-const port = 3001;
+const port = process.env.port;
 
 // Create a database connection pool
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'todo',
-    password: 'xjn244@VH',
-    port: 5432
+user: process.env.DB_USER,
+host: process.env.DB_HOST,
+database: process.env.DB_NAME,
+password: process.env.DB_PASSWORD,
+port: process.env.DB_PORT
 });
 
 // GET request handler to fetch all tasks

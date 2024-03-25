@@ -2,7 +2,7 @@ require('dotenv').config()
 console.log(process.env)
 const express = require('express');
 const cors = require('cors');
-const { Pool } = require('pg');
+//const { Pool } = require('pg');
 
 const app = express();
 app.use(cors());
@@ -22,21 +22,29 @@ port: process.env.DB_PORT
 
 // GET request handler to fetch all tasks
 app.get("/", async (req, res) => {
+    console.log(query)
     try {
         const result = await pool.query('SELECT * FROM task');
+        const rows = result.rows ? result.rows : []
         res.status(200).json(result.rows);
     } catch (error) {
+        console.log(error)
+        res.statusMessage = error
         res.status(500).json({ error: error.message });
     }
 });
 
 // POST request handler to add a new task
 app.post("/new", async (req, res) => {
+    const id = Number(req.params.id)
     try {
-        const result = await pool.query('INSERT INTO task (description) VALUES ($1) RETURNING id', [req.body.description]);
-        res.status(200).json({ id: result.rows[0].id });
+        const result = await query('delete from task where id=$1',
+        [id])
+        res.status(200).json({ id:id });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.log(error)
+        res.statusMessage = error
+        res.status(500).json({ error: error });
     }
 });
 
